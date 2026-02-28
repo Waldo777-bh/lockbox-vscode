@@ -1,0 +1,294 @@
+{
+  "name": "lockbox-vault",
+  "displayName": "Lockbox - API Key Vault",
+  "description": "Encrypted API key vault for developers. Store, access, and manage your API keys securely from VS Code.",
+  "version": "1.0.0",
+  "publisher": "lockbox",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Waldo777-bh/lockbox-vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Keymaps"
+  ],
+  "keywords": [
+    "api-keys",
+    "secrets",
+    "vault",
+    "encryption",
+    "security",
+    "env",
+    "lockbox"
+  ],
+  "icon": "resources/lockbox-marketplace-icon.png",
+  "activationEvents": [
+    "onStartupFinished",
+    "onUri"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "lockbox",
+          "title": "Lockbox",
+          "icon": "resources/lockbox-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "lockbox": [
+        {
+          "id": "lockboxVaults",
+          "name": "Vaults"
+        },
+        {
+          "id": "lockboxRecent",
+          "name": "Quick Access"
+        },
+        {
+          "id": "lockboxStatus",
+          "name": "Connection"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "lockbox.copyKey",
+        "title": "Copy API Key",
+        "category": "Lockbox",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "lockbox.addKey",
+        "title": "Add New Key",
+        "category": "Lockbox",
+        "icon": "$(add)"
+      },
+      {
+        "command": "lockbox.createVault",
+        "title": "Create New Vault",
+        "category": "Lockbox",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "lockbox.searchKeys",
+        "title": "Search Keys",
+        "category": "Lockbox",
+        "icon": "$(search)"
+      },
+      {
+        "command": "lockbox.insertReference",
+        "title": "Insert Key Reference",
+        "category": "Lockbox"
+      },
+      {
+        "command": "lockbox.insertValue",
+        "title": "Insert Key Value",
+        "category": "Lockbox"
+      },
+      {
+        "command": "lockbox.revealKey",
+        "title": "Reveal Key Value",
+        "category": "Lockbox",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "lockbox.importEnv",
+        "title": "Import Keys from .env File",
+        "category": "Lockbox"
+      },
+      {
+        "command": "lockbox.signIn",
+        "title": "Sign In",
+        "category": "Lockbox",
+        "icon": "$(sign-in)"
+      },
+      {
+        "command": "lockbox.signOut",
+        "title": "Sign Out",
+        "category": "Lockbox",
+        "icon": "$(sign-out)"
+      },
+      {
+        "command": "lockbox.refreshVaults",
+        "title": "Refresh Vaults",
+        "category": "Lockbox",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "lockbox.openDashboard",
+        "title": "Open Dashboard",
+        "category": "Lockbox",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "lockbox.showAuditLog",
+        "title": "Show Audit Log",
+        "category": "Lockbox",
+        "icon": "$(history)"
+      },
+      {
+        "command": "lockbox.copyKeyFromTree",
+        "title": "Copy Value",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "lockbox.revealKeyFromTree",
+        "title": "Reveal Value",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "lockbox.deleteKeyFromTree",
+        "title": "Delete Key",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "lockbox.addKeyToVault",
+        "title": "Add Key",
+        "icon": "$(add)"
+      },
+      {
+        "command": "lockbox.storeEnvKey",
+        "title": "Store in Lockbox",
+        "category": "Lockbox"
+      },
+      {
+        "command": "lockbox.copyRecentKey",
+        "title": "Copy Key",
+        "icon": "$(copy)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "lockbox.refreshVaults",
+          "when": "view == lockboxVaults",
+          "group": "navigation"
+        },
+        {
+          "command": "lockbox.createVault",
+          "when": "view == lockboxVaults",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "lockbox.copyKeyFromTree",
+          "when": "view == lockboxVaults && viewItem == key",
+          "group": "inline"
+        },
+        {
+          "command": "lockbox.revealKeyFromTree",
+          "when": "view == lockboxVaults && viewItem == key",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "lockbox.deleteKeyFromTree",
+          "when": "view == lockboxVaults && viewItem == key",
+          "group": "2_destructive@1"
+        },
+        {
+          "command": "lockbox.addKeyToVault",
+          "when": "view == lockboxVaults && viewItem == vault",
+          "group": "inline"
+        },
+        {
+          "command": "lockbox.copyRecentKey",
+          "when": "view == lockboxRecent && viewItem == recentKey",
+          "group": "inline"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "lockbox.copyKeyFromTree",
+          "when": "false"
+        },
+        {
+          "command": "lockbox.revealKeyFromTree",
+          "when": "false"
+        },
+        {
+          "command": "lockbox.deleteKeyFromTree",
+          "when": "false"
+        },
+        {
+          "command": "lockbox.addKeyToVault",
+          "when": "false"
+        },
+        {
+          "command": "lockbox.copyRecentKey",
+          "when": "false"
+        },
+        {
+          "command": "lockbox.storeEnvKey",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Lockbox",
+      "properties": {
+        "lockbox.dashboardUrl": {
+          "type": "string",
+          "default": "https://dashboard.yourlockbox.dev",
+          "description": "URL of the Lockbox dashboard"
+        },
+        "lockbox.autoRefreshInterval": {
+          "type": "number",
+          "default": 300,
+          "description": "Auto-refresh interval in seconds (0 to disable)"
+        },
+        "lockbox.clipboardClearTimeout": {
+          "type": "number",
+          "default": 30,
+          "description": "Clear clipboard after copying a key (seconds, 0 to disable)"
+        },
+        "lockbox.showCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show CodeLens on lockbox:// references"
+        },
+        "lockbox.showEnvSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show suggestions to store .env keys in Lockbox"
+        },
+        "lockbox.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Lockbox status in the status bar"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "lockbox.copyKey",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
