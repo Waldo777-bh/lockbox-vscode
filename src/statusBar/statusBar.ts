@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { isAuthenticated } from "../lib/auth";
+import { isAuthenticated, getUser } from "../lib/auth";
 import { getShowStatusBar } from "../lib/constants";
 import type { VaultTreeProvider } from "../providers/vaultTreeProvider";
 
@@ -39,10 +39,13 @@ export async function updateStatusBar(
 
   const vaults = vaultTreeProvider.getVaults();
   const totalKeys = vaults.reduce((sum, v) => sum + v.keys.length, 0);
+  const user = await getUser();
+  const isPro = user?.tier === "pro";
+  const tierLabel = isPro ? " $(star-full) PRO" : "";
 
-  statusBarItem.text = `$(lock) Lockbox: ${vaults.length} vault${vaults.length !== 1 ? "s" : ""}, ${totalKeys} key${totalKeys !== 1 ? "s" : ""}`;
+  statusBarItem.text = `$(lock) Lockbox${tierLabel}: ${vaults.length} vault${vaults.length !== 1 ? "s" : ""}, ${totalKeys} key${totalKeys !== 1 ? "s" : ""}`;
   statusBarItem.tooltip = new vscode.MarkdownString(
-    `**Lockbox** — Connected\n\nVaults: ${vaults.length}\n\nKeys: ${totalKeys}\n\nLast synced: ${new Date().toLocaleTimeString()}`,
+    `**Lockbox** — Connected${isPro ? " (Pro)" : " (Free)"}\n\nVaults: ${vaults.length}\n\nKeys: ${totalKeys}\n\nLast synced: ${new Date().toLocaleTimeString()}`,
   );
   statusBarItem.command = "lockbox.copyKey";
   statusBarItem.show();

@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
-import { api } from "../lib/api";
+import { api, ApiError } from "../lib/api";
 import { isAuthenticated } from "../lib/auth";
 import { invalidateCache } from "../lib/cache";
+import { getDashboardUrl } from "../lib/constants";
 
 export async function createVault(
   refreshCallback: () => void,
@@ -46,6 +47,19 @@ export async function createVault(
       `Lockbox: Vault "${name}" created successfully.`,
     );
   } catch (err: any) {
+    if (err instanceof ApiError && err.code === "TIER_LIMIT") {
+      const action = await vscode.window.showWarningMessage(
+        `Lockbox: ${err.message}`,
+        "Upgrade to Pro",
+        "Dismiss",
+      );
+      if (action === "Upgrade to Pro") {
+        vscode.env.openExternal(
+          vscode.Uri.parse(`${getDashboardUrl()}/dashboard/pricing`),
+        );
+      }
+      return;
+    }
     vscode.window.showErrorMessage(
       `Lockbox: Failed to create vault — ${err.message}`,
     );

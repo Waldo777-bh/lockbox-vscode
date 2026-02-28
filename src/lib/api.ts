@@ -3,12 +3,15 @@ import { getAuthToken, getAuthHeaders } from "./auth";
 import type { Vault, ApiKey, RevealedKey, AuditEntry, User } from "../types";
 
 export class ApiError extends Error {
+  public code?: string;
   constructor(
     public status: number,
     message: string,
+    code?: string,
   ) {
     super(message);
     this.name = "ApiError";
+    this.code = code;
   }
 }
 
@@ -32,7 +35,13 @@ async function request<T>(
 
   if (!response.ok) {
     const text = await response.text().catch(() => "Unknown error");
-    throw new ApiError(response.status, text);
+    try {
+      const parsed = JSON.parse(text);
+      throw new ApiError(response.status, parsed.error || text, parsed.code);
+    } catch (e) {
+      if (e instanceof ApiError) throw e;
+      throw new ApiError(response.status, text);
+    }
   }
 
   return response.json() as Promise<T>;

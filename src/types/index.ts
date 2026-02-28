@@ -3,6 +3,7 @@ export interface User {
   email: string;
   name: string | null;
   imageUrl: string | null;
+  tier?: string;
 }
 
 export interface Vault {
