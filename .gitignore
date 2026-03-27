@@ -3,3 +3,17 @@ dist/
 out/
 *.vsix
 .vscode-test/
+
+# Environment variables
+.env
+.env.*
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# OS files
+.DS_Store
+Thumbs.db
