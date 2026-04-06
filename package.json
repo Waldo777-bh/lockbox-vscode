@@ -283,7 +283,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
+    "@types/node": "^25.5.2",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^3.2.0",
     "ts-loader": "^9.5.1",
